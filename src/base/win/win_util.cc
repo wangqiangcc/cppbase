@@ -121,7 +121,18 @@ const wchar_t kWindows8OSKRegPath[] =
 // API for that.
 #if _WIN32_WINNT >= 0x0602 //Windows 8
 POWER_PLATFORM_ROLE GetPlatformRole() {
-  return PowerDeterminePlatformRoleEx(POWER_PLATFORM_ROLE_V2);
+
+  static POWER_PLATFORM_ROLE sPowerPlatformRole = PlatformRoleUnspecified;
+  typedef POWER_PLATFORM_ROLE(WINAPI* PowerDeterminePlatformRoleEx)(ULONG Version);
+
+  PowerDeterminePlatformRoleEx power_determine_platform_role =
+	  reinterpret_cast<PowerDeterminePlatformRoleEx>(::GetProcAddress(
+	  ::LoadLibraryW(L"PowrProf.dll"), "PowerDeterminePlatformRoleEx"));
+  if (power_determine_platform_role) {
+	  sPowerPlatformRole = power_determine_platform_role(POWER_PLATFORM_ROLE_V2);
+  }
+
+  return sPowerPlatformRole;
 }
 #endif
 

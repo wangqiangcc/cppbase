@@ -24,6 +24,9 @@ add_definitions(-DNOMINMAX)
 add_definitions(-D_UNICODE)
 add_definitions(-D_CRT_RAND_S)
 add_definitions(-D"USE_ASH=1")
+add_definitions(-DWIN32)
+add_definitions(-DCOMPONENT_BUILD)
+add_definitions(-DBASE_IMPLEMENTATION)
 endif()
 
 # compiler flags.
