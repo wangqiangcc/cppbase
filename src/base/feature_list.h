@@ -10,7 +10,6 @@
 #include <vector>
 
 #include "base/base_export.h"
-#include "base/gtest_prod_util.h"
 #include "base/macros.h"
 #include "base/memory/scoped_ptr.h"
 #include "base/strings/string_piece.h"
@@ -156,7 +155,6 @@ class BASE_EXPORT FeatureList {
   static void ClearInstanceForTesting();
 
  private:
-  FRIEND_TEST_ALL_PREFIXES(FeatureListTest, CheckFeatureIdentity);
 
   struct OverrideEntry {
     // The overridden enable (on/off) state of the feature.

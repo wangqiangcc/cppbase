@@ -58,7 +58,7 @@ elseif(WIN32)
         /wd4351 /wd4355 /wd4396 /wd4503 /wd4819 /wd4100 /wd4121 /wd4125 
         /wd4127 /wd4130 /wd4131 /wd4189 /wd4201 /wd4238 /wd4244 /wd4245 
         /wd4310 /wd4428 /wd4481 /wd4505 /wd4510 /wd4512 /wd4530 /wd4610 
-        /wd4611 /wd4701 /wd4702 /wd4706 /wd4018 /wd4091 /wd4996
+        /wd4611 /wd4701 /wd4702 /wd4706 /wd4018 /wd4091 /wd4996 /wd4251
     )
 
 	if(${MSVC_VERSION} GREATER 1700)
@@ -92,17 +92,16 @@ base/at_exit.cc
 base/barrier_closure.cc
 base/base64.cc
 base/base_paths.cc
-base/base_switches.cc
 base/big_endian.cc
 base/bind_helpers.cc
 base/build_time.cc
 base/callback_helpers.cc
 base/callback_internal.cc
-base/check_example.cc
 base/command_line.cc
 base/cpu.cc
 base/environment.cc
 base/files/file_util.cc
+base/feature_list.cc
 base/guid.cc
 base/hash.cc
 base/ini_parser.cc
