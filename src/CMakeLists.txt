@@ -92,6 +92,7 @@ base/at_exit.cc
 base/barrier_closure.cc
 base/base64.cc
 base/base_paths.cc
+base/base_switches.cc
 base/big_endian.cc
 base/bind_helpers.cc
 base/build_time.cc
