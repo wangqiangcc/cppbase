@@ -200,6 +200,7 @@ base/threading/thread_local_storage.cc
 base/threading/post_task_and_reply_impl.cc
 base/threading/thread_restrictions.cc
 base/threading/sequenced_worker_pool.cc
+base/threading/thread.cc
 base/time/clock.cc
 base/time/default_clock.cc
 base/time/default_tick_clock.cc
@@ -577,4 +578,3 @@ if (WIN32)
 else (WIN32)
         target_link_libraries(base pthread)
 endif(WIN32)
-
