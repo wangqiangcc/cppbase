@@ -131,7 +131,6 @@ base/values.cc
 base/value_conversions.cc
 base/version.cc
 base/vlog.cc
-base/allocator/allocator_extension.cc
 base/debug/alias.cc
 base/debug/crash_logging.cc
 base/debug/debugger.cc
@@ -415,7 +414,6 @@ if (WIN32)
 		base/value_conversions.h
 		base/version.h
 		base/vlog.h
-		base/allocator/allocator_extension.h
 		base/containers/hash_tables.h
 		base/containers/linked_list.h
 		base/containers/mru_cache.h
