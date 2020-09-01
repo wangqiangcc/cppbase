@@ -171,6 +171,7 @@ base/strings/string_util_constants.cc
 base/strings/utf_offset_string_conversions.cc
 base/strings/utf_string_conversions.cc
 base/strings/utf_string_conversion_utils.cc
+base/strings/pattern.cc
 base/synchronization/lock.cc
 base/metrics/histogram_base.cc
 base/metrics/histogram.cc
@@ -568,3 +569,21 @@ if (WIN32)
 else (WIN32)
         target_link_libraries(base pthread)
 endif(WIN32)
+
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${LIBRARY_OUTPUT_PATH}/${CMAKE_BUILD_TYPE}/${PROJECT_NAME}.lib ${CMAKE_SOURCE_DIR}/../build/lib/${PROJECT_NAME}.lib
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${LIBRARY_OUTPUT_PATH}/${CMAKE_BUILD_TYPE}/${PROJECT_NAME}.dll ${CMAKE_SOURCE_DIR}/../build/lib/${PROJECT_NAME}.dll
+
+  #copy to examples bin directory
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different ${LIBRARY_OUTPUT_PATH}/${CMAKE_BUILD_TYPE}/${PROJECT_NAME}.dll ${EXECUTABLE_OUTPUT_PATH}/${CMAKE_BUILD_TYPE}/${PROJECT_NAME}.dll
+)
+
+# Add examples
+###############################################################
+add_subdirectory(examples/cmdline)
+add_subdirectory(examples/log)
+add_subdirectory(examples/path)
+add_subdirectory(examples/process)
+add_subdirectory(examples/string)
+###############################################################
