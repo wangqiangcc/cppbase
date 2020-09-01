@@ -32,7 +32,7 @@
 #include <winstring.h>
 #include <wrl/wrappers/corewrappers.h>
 #endif
-#include "base/base_switches.h"
+
 #include "base/command_line.h"
 #include "base/lazy_instance.h"
 #include "base/logging.h"
@@ -230,14 +230,6 @@ bool IsKeyboardPresentOnSlate(std::string* reason) {
 
   if (GetVersion() < VERSION_WIN8) {
     *reason = "Detection not supported";
-    return false;
-  }
-
-  // This function is only supported for Windows 8 and up.
-  if (CommandLine::ForCurrentProcess()->HasSwitch(
-          switches::kDisableUsbKeyboardDetect)) {
-    if (reason)
-      *reason = "Detection disabled";
     return false;
   }
 

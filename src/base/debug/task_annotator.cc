@@ -6,7 +6,6 @@
 
 #include "base/debug/alias.h"
 #include "base/pending_task.h"
-#include "base/tracked_objects.h"
 
 namespace base {
 namespace debug {
@@ -24,11 +23,6 @@ void TaskAnnotator::DidQueueTask(const char* queue_function,
 
 void TaskAnnotator::RunTask(const char* queue_function,
                             const PendingTask& pending_task) {
-  tracked_objects::TaskStopwatch stopwatch;
-  stopwatch.Start();
-  tracked_objects::Duration queue_duration =
-      stopwatch.StartTime() - pending_task.EffectiveTimePosted();
-
 
   // Before running the task, store the program counter where it was posted
   // and deliberately alias it to ensure it is on the stack if the task
@@ -39,10 +33,6 @@ void TaskAnnotator::RunTask(const char* queue_function,
   debug::Alias(&program_counter);
 
   pending_task.task.Run();
-
-  stopwatch.Stop();
-  tracked_objects::ThreadData::TallyRunOnNamedThreadIfTracking(
-      pending_task, stopwatch);
 }
 
 uint64_t TaskAnnotator::GetTaskTraceID(const PendingTask& task) const {

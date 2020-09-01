@@ -24,7 +24,6 @@
 #include "base/sequenced_task_runner_helpers.h"
 #include "base/synchronization/lock.h"
 #include "base/time/time.h"
-#include "base/tracking_info.h"
 #include "build/build_config.h"
 
 // TODO(sky): these includes should not be necessary. Nuke them.

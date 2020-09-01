@@ -30,8 +30,6 @@
 #include "base/threading/thread_local.h"
 #include "base/threading/thread_restrictions.h"
 #include "base/time/time.h"
-#include "base/tracking_info.h"
-#include "base/tracked_objects.h"
 #include "build/build_config.h"
 
 #if defined(OS_MACOSX)
@@ -48,7 +46,7 @@ namespace base {
 
 namespace {
 
-struct SequencedTask : public TrackingInfo  {
+struct SequencedTask  {
   SequencedTask()
       : sequence_token_id(0),
         trace_id(0),
@@ -56,8 +54,8 @@ struct SequencedTask : public TrackingInfo  {
         shutdown_behavior(SequencedWorkerPool::BLOCK_SHUTDOWN) {}
 
   explicit SequencedTask(const tracked_objects::Location& from_here)
-      : base::TrackingInfo(from_here, TimeTicks()),
-        sequence_token_id(0),
+	  : time_to_run(TimeTicks()),
+		sequence_token_id(0),
         trace_id(0),
         sequence_task_number(0),
         shutdown_behavior(SequencedWorkerPool::BLOCK_SHUTDOWN) {}
@@ -820,13 +818,7 @@ void SequencedWorkerPool::Inner::ThreadLoop(Worker* this_worker) {
           this_worker->set_running_task_info(
               SequenceToken(task.sequence_token_id), task.shutdown_behavior);
 
-          tracked_objects::TaskStopwatch stopwatch;
-          stopwatch.Start();
           task.task.Run();
-          stopwatch.Stop();
-
-          tracked_objects::ThreadData::TallyRunOnNamedThreadIfTracking(
-              task, stopwatch);
 
           // Update the sequence token in case it has been set from within the
           // task, so it can be removed from the set of currently running

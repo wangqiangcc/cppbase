@@ -5,7 +5,6 @@
 #include "base/run_loop.h"
 
 #include "base/bind.h"
-#include "base/tracked_objects.h"
 #include "build/build_config.h"
 
 #if defined(OS_WIN)
@@ -49,12 +48,7 @@ void RunLoop::Run() {
   if (!BeforeRun())
     return;
 
-  // Use task stopwatch to exclude the loop run time from the current task, if
-  // any.
-  tracked_objects::TaskStopwatch stopwatch;
-  stopwatch.Start();
   loop_->RunHandler();
-  stopwatch.Stop();
 
   AfterRun();
 }

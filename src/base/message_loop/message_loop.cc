@@ -20,7 +20,6 @@
 #include "base/thread_task_runner_handle.h"
 #include "base/threading/thread_local.h"
 #include "base/time/time.h"
-#include "base/tracked_objects.h"
 #include "build/build_config.h"
 
 #if defined(OS_MACOSX)

@@ -92,7 +92,6 @@ base/at_exit.cc
 base/barrier_closure.cc
 base/base64.cc
 base/base_paths.cc
-base/base_switches.cc
 base/big_endian.cc
 base/bind_helpers.cc
 base/build_time.cc
@@ -120,8 +119,6 @@ base/sha1_portable.cc
 base/sha256.cc
 base/supports_user_data.cc
 base/sys_info.cc
-base/tracked_objects.cc
-base/tracking_info.cc
 base/task_runner.cc
 base/thread_task_runner_handle.cc
 base/sequenced_task_runner.cc
@@ -161,7 +158,6 @@ base/process/launch.cc
 base/process/process_iterator.cc
 base/process/process_metrics.cc
 base/profiler/alternate_timer.cc
-base/profiler/scoped_profile.cc
 base/profiler/tracked_time.cc
 base/strings/latin1_string_conversions.cc
 base/strings/nullable_string16.cc
@@ -352,7 +348,6 @@ if (WIN32)
 		base/base_export.h
 		base/base_paths.h
 		base/base_paths_win.h
-		base/base_switches.h
 		base/big_endian.h
 		base/bind.h
 		base/bind_helpers.h
@@ -407,8 +402,6 @@ if (WIN32)
 		base/sys_byteorder.h
 		base/sys_info.h
 		base/template_util.h
-		base/tracked_objects.h
-		base/tracking_info.h
 		base/tuple.h
 		base/values.h
 		base/value_conversions.h
@@ -481,7 +474,6 @@ if (WIN32)
 		base/process/process_iterator.h
 		base/process/process_metrics.h
 		base/profiler/alternate_timer.h
-		base/profiler/scoped_profile.h
 		base/profiler/tracked_time.h
 		base/strings/latin1_string_conversions.h
 		base/strings/nullable_string16.h

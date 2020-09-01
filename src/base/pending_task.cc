@@ -4,13 +4,15 @@
 
 #include "base/pending_task.h"
 
-#include "base/tracked_objects.h"
+#include "base/location.h"
+
 
 namespace base {
 
 PendingTask::PendingTask(const tracked_objects::Location& posted_from,
                          const base::Closure& task)
-    : base::TrackingInfo(posted_from, TimeTicks()),
+    : delayed_run_time(TimeTicks()),
+	  time_posted(TimeTicks()),
       task(task),
       posted_from(posted_from),
       sequence_num(0),
@@ -22,7 +24,8 @@ PendingTask::PendingTask(const tracked_objects::Location& posted_from,
                          const base::Closure& task,
                          TimeTicks delayed_run_time,
                          bool nestable)
-    : base::TrackingInfo(posted_from, delayed_run_time),
+    : delayed_run_time(delayed_run_time),
+	  time_posted(TimeTicks()),
       task(task),
       posted_from(posted_from),
       sequence_num(0),
