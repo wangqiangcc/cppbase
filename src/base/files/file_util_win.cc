@@ -21,7 +21,6 @@
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/macros.h"
-#include "base/metrics/histogram.h"
 #include "base/process/process_handle.h"
 #include "base/rand_util.h"
 #include "base/strings/string_number_conversions.h"
@@ -395,7 +394,7 @@ bool CreateDirectoryAndGetError(const FilePath& full_path,
   DWORD fileattr = ::GetFileAttributes(full_path_str);
   if (fileattr != INVALID_FILE_ATTRIBUTES) {
     if ((fileattr & FILE_ATTRIBUTE_DIRECTORY) != 0) {
-      DVLOG(1) << "CreateDirectory(" << full_path_str << "), "
+      DLOG(WARNING) << "CreateDirectory(" << full_path_str << "), "
                << "directory already exists.";
       return true;
     }
@@ -668,7 +667,7 @@ bool AppendToFile(const FilePath& filename, const char* data, int size) {
                                     0,
                                     NULL));
   if (!file.IsValid()) {
-    VPLOG(1) << "CreateFile failed for path " << UTF16ToUTF8(filename.value());
+    PLOG(ERROR) << "CreateFile failed for path " << UTF16ToUTF8(filename.value());
     return false;
   }
 
@@ -679,10 +678,10 @@ bool AppendToFile(const FilePath& filename, const char* data, int size) {
 
   if (!result) {
     // WriteFile failed.
-    VPLOG(1) << "Writing file " << UTF16ToUTF8(filename.value()) << " failed";
+    PLOG(ERROR) << "Writing file " << UTF16ToUTF8(filename.value()) << " failed";
   } else {
     // Didn't write all the bytes.
-    VPLOG(1) << "Only wrote " << written << " out of " << size << " byte(s) to "
+    PLOG(ERROR) << "Only wrote " << written << " out of " << size << " byte(s) to "
              << UTF16ToUTF8(filename.value());
   }
   return false;

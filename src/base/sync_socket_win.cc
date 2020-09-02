@@ -172,7 +172,7 @@ size_t CancelableFileOperation(Function operation,
           len = 0;
 
         if (wait_result == WAIT_OBJECT_0 + 1) {
-          DVLOG(1) << "Shutdown was signaled. Closing socket.";
+          DLOG(INFO) << "Shutdown was signaled. Closing socket.";
           socket->Close();
           return count;
         }

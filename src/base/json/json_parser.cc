@@ -40,7 +40,7 @@ class DictionaryHiddenRootValue : public DictionaryValue {
   }
 
   void Swap(DictionaryValue* other) override {
-    DVLOG(1) << "Swap()ing a DictionaryValue inefficiently.";
+	  DLOG(INFO) << "Swap()ing a DictionaryValue inefficiently.";
 
     // First deep copy to convert JSONStringValue to std::string and swap that
     // copy with |other|, which contains the new contents of |this|.
@@ -63,7 +63,7 @@ class DictionaryHiddenRootValue : public DictionaryValue {
     if (!out)
       return DictionaryValue::RemoveWithoutPathExpansion(key, out);
 
-    DVLOG(1) << "Remove()ing from a DictionaryValue inefficiently.";
+	DLOG(INFO) << "Remove()ing from a DictionaryValue inefficiently.";
 
     // Otherwise, remove the value while its still "owned" by this and copy it
     // to convert any JSONStringValues to std::string.
@@ -90,7 +90,7 @@ class ListHiddenRootValue : public ListValue {
   }
 
   void Swap(ListValue* other) override {
-    DVLOG(1) << "Swap()ing a ListValue inefficiently.";
+	DLOG(INFO) << "Swap()ing a ListValue inefficiently.";
 
     // First deep copy to convert JSONStringValue to std::string and swap that
     // copy with |other|, which contains the new contents of |this|.
@@ -109,7 +109,7 @@ class ListHiddenRootValue : public ListValue {
     if (!out)
       return ListValue::Remove(index, out);
 
-    DVLOG(1) << "Remove()ing from a ListValue inefficiently.";
+	DLOG(INFO) << "Remove()ing from a ListValue inefficiently.";
 
     // Otherwise, remove the value while its still "owned" by this and copy it
     // to convert any JSONStringValues to std::string.

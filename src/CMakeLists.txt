@@ -101,7 +101,6 @@ base/command_line.cc
 base/cpu.cc
 base/environment.cc
 base/files/file_util.cc
-base/feature_list.cc
 base/guid.cc
 base/hash.cc
 base/ini_parser.cc
@@ -127,7 +126,6 @@ base/run_loop.cc
 base/values.cc
 base/value_conversions.cc
 base/version.cc
-base/vlog.cc
 base/debug/alias.cc
 base/debug/crash_logging.cc
 base/debug/debugger.cc
@@ -173,15 +171,6 @@ base/strings/utf_string_conversions.cc
 base/strings/utf_string_conversion_utils.cc
 base/strings/pattern.cc
 base/synchronization/lock.cc
-base/metrics/histogram_base.cc
-base/metrics/histogram.cc
-base/metrics/histogram_samples.cc
-base/metrics/sparse_histogram.cc
-base/metrics/bucket_ranges.cc
-base/metrics/metrics_hashes.cc
-base/metrics/sample_map.cc
-base/metrics/sample_vector.cc
-base/metrics/statistics_recorder.cc
 base/third_party/dmg_fp/dtoa_wrapper.cc
 base/third_party/dmg_fp/g_fmt.cc
 base/third_party/icu/icu_utf.cc
@@ -203,7 +192,6 @@ base/time/default_tick_clock.cc
 base/time/tick_clock.cc
 base/time/time.cc
 base/timer/elapsed_timer.cc
-base/metrics/field_trial.cc
 base/message_loop/message_loop.cc
 base/message_loop/message_pump.cc
 base/message_loop/message_pump_default.cc
@@ -407,7 +395,6 @@ if (WIN32)
 		base/values.h
 		base/value_conversions.h
 		base/version.h
-		base/vlog.h
 		base/containers/hash_tables.h
 		base/containers/linked_list.h
 		base/containers/mru_cache.h

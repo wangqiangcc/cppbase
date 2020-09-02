@@ -457,15 +457,6 @@ class BASE_EXPORT MessageLoop : public MessagePump::Delegate {
   // responsible for synchronizing ScheduleWork() calls.
   void ScheduleWork();
 
-  // Start recording histogram info about events and action IF it was enabled
-  // and IF the statistics recorder can accept a registration of our histogram.
-  void StartHistogrammer();
-
-  // Add occurrence of event to our histogram, so that we can see what is being
-  // done in a specific MessageLoop instance (i.e., specific thread).
-  // If message_histogram_ is NULL, this is a no-op.
-  void HistogramEvent(int event);
-
   // MessagePump::Delegate methods:
   bool DoWork() override;
   bool DoDelayedWork(TimeTicks* next_delayed_work_time) override;

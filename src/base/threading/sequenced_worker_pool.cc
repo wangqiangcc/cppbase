@@ -38,10 +38,6 @@
 #include "base/win/scoped_com_initializer.h"
 #endif
 
-#if !defined(OS_NACL)
-#include "base/metrics/histogram.h"
-#endif
-
 namespace base {
 
 namespace {
@@ -765,10 +761,6 @@ void SequencedWorkerPool::Inner::Shutdown(
     while (!CanShutdown())
       can_shutdown_cv_.Wait();
   }
-#if !defined(OS_NACL)
-  UMA_HISTOGRAM_TIMES("SequencedWorkerPool.ShutdownDelayTime",
-                      TimeTicks::Now() - shutdown_wait_begin);
-#endif
 }
 
 bool SequencedWorkerPool::Inner::IsShutdownInProgress() {

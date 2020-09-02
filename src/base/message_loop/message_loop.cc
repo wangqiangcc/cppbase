@@ -13,8 +13,6 @@
 #include "base/logging.h"
 #include "base/memory/scoped_ptr.h"
 #include "base/message_loop/message_pump_default.h"
-#include "base/metrics/histogram.h"
-#include "base/metrics/statistics_recorder.h"
 #include "base/run_loop.h"
 #include "base/third_party/dynamic_annotations/dynamic_annotations.h"
 #include "base/thread_task_runner_handle.h"
@@ -54,33 +52,6 @@ const int kTimerEvent = 0x2;
 const int kLeastNonZeroMessageId = 1;
 const int kMaxMessageId = 1099;
 const int kNumberOfDistinctMessagesDisplayed = 1100;
-
-// Provide a macro that takes an expression (such as a constant, or macro
-// constant) and creates a pair to initialize an array of pairs.  In this case,
-// our pair consists of the expressions value, and the "stringized" version
-// of the expression (i.e., the expression put in quotes).  For example, if
-// we have:
-//    #define FOO 2
-//    #define BAR 5
-// then the following:
-//    VALUE_TO_NUMBER_AND_NAME(FOO + BAR)
-// will expand to:
-//   {7, "FOO + BAR"}
-// We use the resulting array as an argument to our histogram, which reads the
-// number as a bucket identifier, and proceeds to use the corresponding name
-// in the pair (i.e., the quoted string) when printing out a histogram.
-#define VALUE_TO_NUMBER_AND_NAME(name) {name, #name},
-
-const LinearHistogram::DescriptionPair event_descriptions_[] = {
-  // Provide some pretty print capability in our histogram for our internal
-  // messages.
-
-  // A few events we handle (kindred to messages), and used to profile actions.
-  VALUE_TO_NUMBER_AND_NAME(kTaskRunEvent)
-  VALUE_TO_NUMBER_AND_NAME(kTimerEvent)
-
-  {-1, NULL}  // The list must be null-terminated, per API to histogram.
-};
 #endif  // !defined(OS_NACL)
 
 bool enable_histogrammer_ = false;
@@ -435,8 +406,6 @@ void MessageLoop::SetThreadTaskRunnerHandle() {
 void MessageLoop::RunHandler() {
   DCHECK_EQ(this, current());
 
-  StartHistogrammer();
-
 #if defined(OS_WIN)
   if (run_loop_->dispatcher_ && type() == TYPE_UI) {
     static_cast<MessagePumpForUI*>(pump_.get())->
@@ -474,8 +443,6 @@ void MessageLoop::RunTask(const PendingTask& pending_task) {
 
   // Execute the task and assume the worst: It is probably not reentrant.
   nestable_tasks_allowed_ = false;
-
-  HistogramEvent(kTaskRunEvent);
 
   FOR_EACH_OBSERVER(TaskObserver, task_observers_,
                     WillProcessTask(pending_task));
@@ -551,32 +518,6 @@ void MessageLoop::ReloadWorkQueue() {
 
 void MessageLoop::ScheduleWork() {
   pump_->ScheduleWork();
-}
-
-//------------------------------------------------------------------------------
-// Method and data for histogramming events and actions taken by each instance
-// on each thread.
-
-void MessageLoop::StartHistogrammer() {
-#if !defined(OS_NACL)  // NaCl build has no metrics code.
-  if (enable_histogrammer_ && !message_histogram_
-      && StatisticsRecorder::IsActive()) {
-    DCHECK(!thread_name_.empty());
-    message_histogram_ = LinearHistogram::FactoryGetWithRangeDescription(
-        "MsgLoop:" + thread_name_,
-        kLeastNonZeroMessageId, kMaxMessageId,
-        kNumberOfDistinctMessagesDisplayed,
-        HistogramBase::kHexRangePrintingFlag,
-        event_descriptions_);
-  }
-#endif
-}
-
-void MessageLoop::HistogramEvent(int event) {
-#if !defined(OS_NACL)
-  if (message_histogram_)
-    message_histogram_->Add(event);
-#endif
 }
 
 bool MessageLoop::DoWork() {

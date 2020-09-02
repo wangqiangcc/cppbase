@@ -69,7 +69,7 @@ typedef pthread_mutex_t* MutexHandle;
 #include "base/strings/utf_string_conversions.h"
 #include "base/synchronization/lock_impl.h"
 #include "base/threading/platform_thread.h"
-#include "base/vlog.h"
+
 #if defined(OS_POSIX)
 #include "base/posix/safe_strerror.h"
 #endif
@@ -81,9 +81,6 @@ typedef pthread_mutex_t* MutexHandle;
 namespace logging {
 
 namespace {
-
-VlogInfo* g_vlog_info = nullptr;
-VlogInfo* g_vlog_info_prev = nullptr;
 
 const char* const log_severity_names[LOG_NUM_SEVERITIES] = {
   "INFO", "WARNING", "ERROR", "FATAL" };
@@ -387,20 +384,6 @@ bool ShouldCreateLogMessage(int severity) {
   // when g_logging_destination is LOG_NONE.
   return g_logging_destination != LOG_NONE || log_message_handler ||
          severity >= kAlwaysPrintErrorLevel;
-}
-
-int GetVlogVerbosity() {
-  return std::max(-1, LOG_INFO - GetMinLogLevel());
-}
-
-int GetVlogLevelHelper(const char* file, size_t N) {
-  DCHECK_GT(N, 0U);
-  // Note: |g_vlog_info| may change on a different thread during startup
-  // (but will always be valid or nullptr).
-  VlogInfo* vlog_info = g_vlog_info;
-  return vlog_info ?
-      vlog_info->GetVlogLevel(base::StringPiece(file, N - 1)) :
-      GetVlogVerbosity();
 }
 
 void SetLogItems(bool enable_process_id, bool enable_thread_id,

@@ -74,46 +74,7 @@
 //   DLOG_ASSERT(assertion);
 //
 // which is syntactic sugar for {,D}LOG_IF(FATAL, assert fails) << assertion;
-//
-// There are "verbose level" logging macros.  They look like
-//
-//   VLOG(1) << "I'm printed when you run the program with --v=1 or more";
-//   VLOG(2) << "I'm printed when you run the program with --v=2 or more";
-//
-// These always log at the INFO log level (when they log at all).
-// The verbose logging can also be turned on module-by-module.  For instance,
-//    --vmodule=profile=2,icon_loader=1,browser_*=3,*/chromeos/*=4 --v=0
-// will cause:
-//   a. VLOG(2) and lower messages to be printed from profile.{h,cc}
-//   b. VLOG(1) and lower messages to be printed from icon_loader.{h,cc}
-//   c. VLOG(3) and lower messages to be printed from files prefixed with
-//      "browser"
-//   d. VLOG(4) and lower messages to be printed from files under a
-//     "chromeos" directory.
-//   e. VLOG(0) and lower messages to be printed from elsewhere
-//
-// The wildcarding functionality shown by (c) supports both '*' (match
-// 0 or more characters) and '?' (match any single character)
-// wildcards.  Any pattern containing a forward or backward slash will
-// be tested against the whole pathname and not just the module.
-// E.g., "*/foo/bar/*=2" would change the logging level for all code
-// in source files under a "foo/bar" directory.
-//
-// There's also VLOG_IS_ON(n) "verbose level" condition macro. To be used as
-//
-//   if (VLOG_IS_ON(2)) {
-//     // do some logging preparation and logging
-//     // that can't be accomplished with just VLOG(2) << ...;
-//   }
-//
-// There is also a VLOG_IF "verbose level" condition macro for sample
-// cases, when some extra computation and preparation for logs is not
-// needed.
-//
-//   VLOG_IF(1, (size > 1024))
-//      << "I'm printed when size is more than 1024 and when you run the "
-//         "program with --v=1 or more";
-//
+
 // We also override the standard 'assert' to use 'DLOG_ASSERT'.
 //
 // Lastly, there is:
@@ -243,19 +204,6 @@ BASE_EXPORT int GetMinLogLevel();
 // Used by LOG_IS_ON to lazy-evaluate stream arguments.
 BASE_EXPORT bool ShouldCreateLogMessage(int severity);
 
-// Gets the VLOG default verbosity level.
-BASE_EXPORT int GetVlogVerbosity();
-
-// Gets the current vlog level for the given file (usually taken from
-// __FILE__).
-
-// Note that |N| is the size *with* the null terminator.
-BASE_EXPORT int GetVlogLevelHelper(const char* file_start, size_t N);
-
-template <size_t N>
-int GetVlogLevel(const char (&file)[N]) {
-  return GetVlogLevelHelper(file, N);
-}
 
 // Sets the common items you want to be prepended to each log message.
 // process and thread IDs default to off, the timestamp defaults to on.
@@ -375,36 +323,6 @@ const LogSeverity LOG_0 = LOG_ERROR;
 
 #define SYSLOG(severity) LOG(severity)
 #define SYSLOG_IF(severity, condition) LOG_IF(severity, condition)
-
-// The VLOG macros log with negative verbosities.
-#define VLOG_STREAM(verbose_level) \
-  logging::LogMessage(__FILE__, __LINE__, -verbose_level).stream()
-
-#define VLOG(verbose_level) \
-  LAZY_STREAM(VLOG_STREAM(verbose_level), VLOG_IS_ON(verbose_level))
-
-#define VLOG_IF(verbose_level, condition) \
-  LAZY_STREAM(VLOG_STREAM(verbose_level), \
-      VLOG_IS_ON(verbose_level) && (condition))
-
-#if defined (OS_WIN)
-#define VPLOG_STREAM(verbose_level) \
-  logging::Win32ErrorLogMessage(__FILE__, __LINE__, -verbose_level, \
-    ::logging::GetLastSystemErrorCode()).stream()
-#elif defined(OS_POSIX)
-#define VPLOG_STREAM(verbose_level) \
-  logging::ErrnoLogMessage(__FILE__, __LINE__, -verbose_level, \
-    ::logging::GetLastSystemErrorCode()).stream()
-#endif
-
-#define VPLOG(verbose_level) \
-  LAZY_STREAM(VPLOG_STREAM(verbose_level), VLOG_IS_ON(verbose_level))
-
-#define VPLOG_IF(verbose_level, condition) \
-  LAZY_STREAM(VPLOG_STREAM(verbose_level), \
-    VLOG_IS_ON(verbose_level) && (condition))
-
-// TODO(akalin): Add more VLOG variants, e.g. VPLOG.
 
 #define LOG_ASSERT(condition)  \
   LOG_IF(FATAL, !(condition)) << "Assert failed: " #condition ". "
@@ -633,10 +551,6 @@ enum { DEBUG_MODE = ENABLE_DLOG };
 
 #define DPLOG(severity)                                         \
   LAZY_STREAM(PLOG_STREAM(severity), DLOG_IS_ON(severity))
-
-#define DVLOG(verboselevel) DVLOG_IF(verboselevel, VLOG_IS_ON(verboselevel))
-
-#define DVPLOG(verboselevel) DVPLOG_IF(verboselevel, VLOG_IS_ON(verboselevel))
 
 // Definitions for DCHECK et al.
 
