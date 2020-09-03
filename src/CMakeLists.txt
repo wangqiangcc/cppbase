@@ -266,7 +266,7 @@ endif()
 
 if (UNIX)
     LIST(APPEND SOURCES
-		base/file_util_posix.cc
+		base/files/file_util_posix.cc
 		base/guid_posix.cc
 		base/platform_file_posix.cc
 		base/rand_util_posix.cc
