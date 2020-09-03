@@ -129,7 +129,6 @@ base/version.cc
 base/debug/alias.cc
 base/debug/crash_logging.cc
 base/debug/debugger.cc
-base/debug/profiler.cc
 base/debug/stack_trace.cc
 base/debug/task_annotator.cc
 base/files/file_enumerator.cc
@@ -406,7 +405,6 @@ if (WIN32)
 		base/debug/debugger.h
 		base/debug/leak_annotations.h
 		base/debug/leak_tracker.h
-		base/debug/profiler.h
 		base/debug/stack_trace.h
 		base/files/dir_reader_fallback.h
 		base/files/file_enumerator.h
