@@ -13,7 +13,7 @@ set(TARGET string)
 add_executable(${TARGET} ${SOURCE_FILES})
 
 if (WIN32)
-        target_link_libraries(${TARGET} ../../../../build/lib/base)
+        target_link_libraries(${TARGET} base)
 else (WIN32)
         target_link_libraries(${TARGET} pthread)
 endif(WIN32)

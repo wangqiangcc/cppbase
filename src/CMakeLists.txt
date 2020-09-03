@@ -78,13 +78,13 @@ endif()
 include_directories(${PROJECT_SOURCE_DIR}/)
 
 if (UNIX)
-set(CMAKE_CXX_COMPILER "g++")
+set(CMAKE_CXX_COMPILER "/usr/bin/cc")
 SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0")
 SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 ")
 endif()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
-set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
 
 set(SOURCES 
@@ -266,12 +266,10 @@ endif()
 
 if (UNIX)
     LIST(APPEND SOURCES
-		base/atomicops_internals_x86_gcc.cc	
 		base/file_util_posix.cc
 		base/guid_posix.cc
 		base/platform_file_posix.cc
 		base/rand_util_posix.cc
-		base/safe_strerror_posix.cc
 		base/sync_socket_posix.cc
 		base/sys_info_posix.cc
 		base/debug/debugger_posix.cc
