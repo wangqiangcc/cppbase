@@ -21,6 +21,7 @@
 #include "base/macros.h"
 #include "base/memory/linked_ptr.h"
 #include "base/stl_util.h"
+#include "base/location.h"
 #include "base/strings/stringprintf.h"
 #include "base/synchronization/condition_variable.h"
 #include "base/synchronization/lock.h"
