@@ -571,6 +571,7 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 add_subdirectory(examples/cmdline)
 add_subdirectory(examples/log)
 add_subdirectory(examples/path)
+add_subdirectory(examples/file)
 add_subdirectory(examples/process)
 add_subdirectory(examples/string)
 ###############################################################

@@ -1,5 +1,5 @@
 ﻿cmake_minimum_required(VERSION 2.8)
-project(path)
+project(file)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -10,10 +10,10 @@ endif()
 include_directories(../../)
 
 set(SOURCE_FILES
-    path.cc
+    file.cc
     )
 
-set(TARGET path)
+set(TARGET file)
 
 add_executable(${TARGET} ${SOURCE_FILES})
 
