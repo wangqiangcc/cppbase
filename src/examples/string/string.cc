@@ -8,7 +8,6 @@
 
 int main(int argc, char** argv)
 {
-
 	// string convert
 	base::string16 str16 = L"This is a test string. 这是中文测试";
 	std::cout << "Output string utf16: " << str16.c_str() << std::endl;

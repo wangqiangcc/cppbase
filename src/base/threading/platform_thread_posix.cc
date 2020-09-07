@@ -225,7 +225,7 @@ void PlatformThread::SetCurrentThreadPriority(ThreadPriority priority) {
   // equivalent but makes sandboxing easier (https://crbug.com/399473).
   const int nice_setting = internal::ThreadPriorityToNiceValue(priority);
   if (setpriority(PRIO_PROCESS, 0, nice_setting)) {
-    DVPLOG(1) << "Failed to set nice value of thread ("
+    DPLOG(ERROR) << "Failed to set nice value of thread ("
               << PlatformThread::CurrentId() << ") to " << nice_setting;
   }
 #endif  // defined(OS_NACL)
@@ -249,7 +249,7 @@ ThreadPriority PlatformThread::GetCurrentThreadPriority() {
   errno = 0;
   int nice_value = getpriority(PRIO_PROCESS, 0);
   if (errno != 0) {
-    DVPLOG(1) << "Failed to get nice value of thread ("
+    DPLOG(ERROR) << "Failed to get nice value of thread ("
               << PlatformThread::CurrentId() << ")";
     return ThreadPriority::NORMAL;
   }

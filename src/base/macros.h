@@ -84,4 +84,17 @@ enum LinkerInitialized { LINKER_INITIALIZED };
 
 }  // base
 
+
+#ifndef COMPILE_ASSERT
+// Some bots that build mini_installer don't know static_assert.
+#if __cplusplus >= 201103L
+#define COMPILE_ASSERT(expr, msg) static_assert(expr, #msg)
+#else
+template <bool>
+struct CompileAssert {};
+#define COMPILE_ASSERT(expr, msg) \
+  typedef CompileAssert<(bool(expr))> msg[bool(expr) ? 1 : -1]
+#endif
+#endif
+
 #endif  // BASE_MACROS_H_

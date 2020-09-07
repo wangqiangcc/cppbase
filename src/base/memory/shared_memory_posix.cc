@@ -17,7 +17,6 @@
 #include "base/posix/eintr_wrapper.h"
 #include "base/posix/safe_strerror.h"
 #include "base/process/process_metrics.h"
-#include "base/profiler/scoped_tracker.h"
 #include "base/scoped_generic.h"
 #include "base/strings/utf_string_conversions.h"
 #include "build/build_config.h"
@@ -37,9 +36,6 @@ struct ScopedPathUnlinkerTraits {
   static void Free(FilePath* path) {
     // TODO(erikchen): Remove ScopedTracker below once http://crbug.com/466437
     // is fixed.
-    tracked_objects::ScopedTracker tracking_profile(
-        FROM_HERE_WITH_EXPLICIT_FUNCTION(
-            "466437 SharedMemory::Create::Unlink"));
     if (unlink(path->value().c_str()))
       PLOG(WARNING) << "unlink";
   }
@@ -67,9 +63,6 @@ bool CreateAnonymousSharedMemory(const SharedMemoryCreateOptions& options,
   if (GetShmemTempDir(options.executable, &directory)) {
     // TODO(erikchen): Remove ScopedTracker below once http://crbug.com/466437
     // is fixed.
-    tracked_objects::ScopedTracker tracking_profile(
-        FROM_HERE_WITH_EXPLICIT_FUNCTION(
-            "466437 SharedMemory::Create::OpenTemporaryFile"));
     fp->reset(base::CreateAndOpenTemporaryFileInDir(directory, path));
 
     // Deleting the file prevents anyone else from mapping it in (making it
@@ -83,9 +76,7 @@ bool CreateAnonymousSharedMemory(const SharedMemoryCreateOptions& options,
     if (options.share_read_only) {
       // TODO(erikchen): Remove ScopedTracker below once
       // http://crbug.com/466437 is fixed.
-      tracked_objects::ScopedTracker tracking_profile(
-          FROM_HERE_WITH_EXPLICIT_FUNCTION(
-              "466437 SharedMemory::Create::OpenReadonly"));
+
       // Also open as readonly so that we can ShareReadOnlyToProcess.
       readonly_fd->reset(HANDLE_EINTR(open(path->value().c_str(), O_RDONLY)));
       if (!readonly_fd->is_valid()) {
@@ -194,9 +185,7 @@ bool SharedMemory::GetSizeFromSharedMemoryHandle(
 bool SharedMemory::Create(const SharedMemoryCreateOptions& options) {
   // TODO(erikchen): Remove ScopedTracker below once http://crbug.com/466437
   // is fixed.
-  tracked_objects::ScopedTracker tracking_profile1(
-      FROM_HERE_WITH_EXPLICIT_FUNCTION(
-          "466437 SharedMemory::Create::Start"));
+
   DCHECK_EQ(-1, mapped_file_);
   if (options.size == 0) return false;
 
@@ -206,7 +195,6 @@ bool SharedMemory::Create(const SharedMemoryCreateOptions& options) {
   // This function theoretically can block on the disk, but realistically
   // the temporary files we create will just go into the buffer cache
   // and be deleted before they ever make it out to disk.
-  base::ThreadRestrictions::ScopedAllowIO allow_io;
 
   ScopedFILE fp;
   bool fix_size = true;
@@ -409,7 +397,7 @@ bool SharedMemory::PrepareMapFile(ScopedFILE fp, ScopedFD readonly_fd) {
   // This function theoretically can block on the disk, but realistically
   // the temporary files we create will just go into the buffer cache
   // and be deleted before they ever make it out to disk.
-  base::ThreadRestrictions::ScopedAllowIO allow_io;
+
 
   struct stat st = {};
   if (fstat(fileno(fp.get()), &st))

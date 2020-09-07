@@ -8,7 +8,8 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
+#include "base/macros.h"
+#include "base/basictypes.h"
 #include "base/files/file_path.h"
 #include "base/logging.h"
 #include "base/posix/eintr_wrapper.h"

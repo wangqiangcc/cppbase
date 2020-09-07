@@ -3,6 +3,7 @@
 #include <windows.h>
 #include "base/process/process_metrics.h"
 #include "base/process/process.h"
+#include "base/process/launch.h"
 
 int main(int argc, char** argv) {
   
@@ -39,6 +40,12 @@ int main(int argc, char** argv) {
 		std::cout << "cpu_usage: " << cpu_usage << std::endl;
 		Sleep(1000);
 	}
+
+	// startup process
+	base::LaunchOptions options;
+	base::Process process = base::LaunchProcess(L"c:\\Windows\\SysWow64\\notepad.exe", options);
+	int priority = process.GetPriority();
+	process.Close();
 
   return 0;
 }
