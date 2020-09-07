@@ -174,7 +174,6 @@ base/third_party/dmg_fp/dtoa_wrapper.cc
 base/third_party/dmg_fp/g_fmt.cc
 base/third_party/icu/icu_utf.cc
 base/third_party/nspr/prtime.cc
-base/third_party/superfasthash/superfasthash.c
 base/threading/non_thread_safe_impl.cc
 base/threading/simple_thread.cc
 base/threading/thread_checker_impl.cc
@@ -553,7 +552,7 @@ else (WIN32)
         target_link_libraries(base pthread)
 endif(WIN32)
 
-
+if (MSVC)
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_if_different ${LIBRARY_OUTPUT_PATH}/${CMAKE_BUILD_TYPE}/${PROJECT_NAME}.lib ${CMAKE_SOURCE_DIR}/../build/lib/${PROJECT_NAME}.lib
   COMMAND ${CMAKE_COMMAND} -E copy_if_different ${LIBRARY_OUTPUT_PATH}/${CMAKE_BUILD_TYPE}/${PROJECT_NAME}.dll ${CMAKE_SOURCE_DIR}/../build/lib/${PROJECT_NAME}.dll
@@ -561,13 +560,25 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
   #copy to examples bin directory
   COMMAND ${CMAKE_COMMAND} -E copy_if_different ${LIBRARY_OUTPUT_PATH}/${CMAKE_BUILD_TYPE}/${PROJECT_NAME}.dll ${EXECUTABLE_OUTPUT_PATH}/${CMAKE_BUILD_TYPE}/${PROJECT_NAME}.dll
 )
+endif(MSVC)
 
 # Add examples
 ###############################################################
-add_subdirectory(examples/cmdline)
-add_subdirectory(examples/log)
-add_subdirectory(examples/path)
-add_subdirectory(examples/file)
-add_subdirectory(examples/process)
-add_subdirectory(examples/string)
+add_executable(cmdline examples/cmdline.cc)
+target_link_libraries(cmdline base)
+
+add_executable(log examples/log.cc)
+target_link_libraries(log base)
+
+add_executable(path examples/path.cc)
+target_link_libraries(path base)
+
+add_executable(file examples/file.cc)
+target_link_libraries(file base)
+
+add_executable(process examples/process_info.cc)
+target_link_libraries(process base)
+
+add_executable(string examples/string.cc)
+target_link_libraries(string base)
 ###############################################################

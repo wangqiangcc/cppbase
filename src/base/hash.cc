@@ -9,6 +9,8 @@
 // Note: This algorithm is also in Blink under Source/wtf/StringHasher.h.
 extern "C" uint32_t SuperFastHash(const char* data, int len);
 
+#include "base/third_party/superfasthash/superfasthash.c"
+
 namespace base {
 
 uint32_t SuperFastHash(const char* data, int len) {
