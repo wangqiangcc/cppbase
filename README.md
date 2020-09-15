@@ -11,7 +11,9 @@ c++ basic library from Google chromium 49.0.2623.112
 
 
 ### Linux
-to do
+# cd build
+# chmod a+x linux_build.sh
+# ./linux_build.sh
 
 ### macOS
 to do
