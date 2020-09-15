@@ -3,6 +3,7 @@
 #include "base/process/process_metrics.h"
 #include "base/process/process.h"
 #include "base/process/launch.h"
+#include "base/threading/platform_thread.h"
 
 int main(int argc, char** argv) {
   
@@ -24,8 +25,10 @@ int main(int argc, char** argv) {
 		metrics = base::ProcessMetrics::CreateCurrentProcessMetrics();
 	}
 	else {
+		#ifdef OS_WIN
 		base::ProcessHandle process_handle = ::OpenProcess(PROCESS_ALL_ACCESS, FALSE, process_id);
 		metrics = base::ProcessMetrics::CreateProcessMetrics(process_handle);
+		#endif
 	}
 
 	for (int i = 0; i < 100; i++) {
@@ -37,7 +40,8 @@ int main(int argc, char** argv) {
 
 		double cpu_usage = metrics->GetCPUUsage();
 		std::cout << "cpu_usage: " << cpu_usage << std::endl;
-		Sleep(1000);
+		base::PlatformThread::Sleep(base::TimeDelta::FromMilliseconds(1000));
+
 	}
 
   return 0;

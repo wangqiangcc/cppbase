@@ -6,17 +6,30 @@
 int main(int argc, char** argv) {
 
 	// File path operation
+#ifdef WIN32
 	base::FilePath path(L"C:\\Windows");
+#else
+	base::FilePath path("/home/");
+#endif // WIN32
+
 	std::cout << "path: " << path.value() << std::endl;
 	base::FilePath path2 = path.AppendASCII("SysWOW64\\log");
 	std::cout << "path2: " << path2.value() << std::endl;
-	base::FilePath path3 = path2.Append(L"test");
+	base::FilePath path3 = path2.AppendASCII("test");
 	std::cout << "path3: " << path3.value() << std::endl;
 
+#ifdef WIN32
 	base::FilePath path4 = path3.AddExtension(L"log");
+#else
+	base::FilePath path4 = path3.AddExtension("log");
+#endif // WIN32
 	std::cout << "path4: " << path4.value() << std::endl;
 
+#ifdef WIN32
 	base::FilePath path5 = path3.ReplaceExtension(L"txt");
+#else
+	base::FilePath path5 = path3.ReplaceExtension("txt");
+#endif // WIN32
 	std::cout << "path5: " << path5.value() << std::endl;
 
 	std::cout << "BaseName: " << path5.BaseName().value() << std::endl;

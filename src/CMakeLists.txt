@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(base CXX)
+project(base CXX C) 
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Debug)
@@ -78,14 +78,14 @@ endif()
 include_directories(${PROJECT_SOURCE_DIR}/)
 
 if (UNIX)
-set(CMAKE_CXX_COMPILER "/usr/bin/cc")
+set(CMAKE_C_COMPILER "/usr/bin/gcc")
+set(CMAKE_CXX_COMPILER "/usr/bin/g++")
 SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0")
 SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 ")
 endif()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
-
 
 set(SOURCES 
 base/at_exit.cc
@@ -264,9 +264,10 @@ if (WIN32)
 endif()
 
 if (UNIX)
-    LIST(APPEND SOURCES
-		base/files/file_util_posix.cc
+	LIST(APPEND SOURCES
+		base/native_library_posix.cc
 		base/guid_posix.cc
+		base/base_paths_posix.cc
 		base/platform_file_posix.cc
 		base/rand_util_posix.cc
 		base/sync_socket_posix.cc
@@ -275,9 +276,13 @@ if (UNIX)
 		base/debug/stack_trace_posix.cc
 		base/files/file_enumerator_posix.cc
 		base/files/memory_mapped_file_posix.cc
+		base/files/file_posix.cc
+		base/files/file_util_posix.cc
+		base/files/scoped_file.cc
 		base/memory/shared_memory_posix.cc
 		base/posix/file_descriptor_shuffle.cc
 		base/posix/global_descriptors.cc
+		base/posix/safe_strerror.cc
 		base/process/kill_posix.cc
 		base/process/launch_posix.cc
 		base/process/process_handle_posix.cc
@@ -290,8 +295,13 @@ if (UNIX)
 		base/synchronization/waitable_event_posix.cc
 		base/threading/platform_thread_posix.cc
 		base/threading/thread_local_posix.cc
+		base/threading/platform_thread_internal_posix.cc
 		base/threading/thread_local_storage_posix.cc
 		base/time/time_posix.cc
+		base/nix/xdg_util.cc
+		base/message_loop/message_pump_libevent.cc
+		base/third_party/xdg_user_dirs/xdg_user_dir_lookup.cc
+		base/third_party/dynamic_annotations/dynamic_annotations.c
     )
 endif()
 
@@ -545,11 +555,12 @@ endmacro(source_group_by_dir)
 source_group_by_dir(SOURCES)
 add_library(base SHARED ${SOURCES})
 
+link_directories(${PROJECT_BINARY_DIR}/bin)
 
 if (WIN32)
         target_link_libraries(base Netapi32 PowrProf Setupapi Version Dbghelp Ws2_32 Shlwapi)
 else (WIN32)
-        target_link_libraries(base pthread)
+        target_link_libraries(base dl pthread)
 endif(WIN32)
 
 if (MSVC)
@@ -564,21 +575,46 @@ endif(MSVC)
 
 # Add examples
 ###############################################################
+
 add_executable(cmdline examples/cmdline.cc)
+if (WIN32)
 target_link_libraries(cmdline base)
+else (WIN32)
+target_link_libraries(cmdline base event)
+endif(WIN32)
 
 add_executable(log examples/log.cc)
+if (WIN32)
 target_link_libraries(log base)
+else (WIN32)
+target_link_libraries(log base event)
+endif(WIN32)
 
 add_executable(path examples/path.cc)
+if (WIN32)
 target_link_libraries(path base)
+else (WIN32)
+target_link_libraries(path base event)
+endif(WIN32)
 
 add_executable(file examples/file.cc)
+if (WIN32)
 target_link_libraries(file base)
+else (WIN32)
+target_link_libraries(file base event)
+endif(WIN32)
 
 add_executable(process examples/process_info.cc)
+if (WIN32)
 target_link_libraries(process base)
+else (WIN32)
+target_link_libraries(process base event)
+endif(WIN32)
 
 add_executable(string examples/string.cc)
+if (WIN32)
 target_link_libraries(string base)
+else (WIN32)
+target_link_libraries(string base event)
+endif(WIN32)
 ###############################################################

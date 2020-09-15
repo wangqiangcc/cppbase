@@ -16,7 +16,6 @@
 #include "base/posix/eintr_wrapper.h"
 #include "base/third_party/libevent/event.h"
 #include "base/time/time.h"
-#include "base/trace_event/trace_event.h"
 #include "build/build_config.h"
 
 #if defined(OS_MACOSX)
@@ -342,8 +341,6 @@ void MessagePumpLibevent::OnLibeventNotification(int fd,
   FileDescriptorWatcher* controller =
       static_cast<FileDescriptorWatcher*>(context);
   DCHECK(controller);
-  TRACE_EVENT1("toplevel", "MessagePumpLibevent::OnLibeventNotification",
-               "fd", fd);
 
   MessagePumpLibevent* pump = controller->pump();
   pump->processed_io_events_ = true;

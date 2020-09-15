@@ -5,6 +5,7 @@
 #include "base/files/file_path.h"
 #include "base/files/file_util.h"
 #include "base/strings/stringprintf.h"
+#include "base/strings/sys_string_conversions.h"
 #include "base/strings/utf_string_conversions.h"
 
 //init log
@@ -30,7 +31,12 @@ void InitLogging() {
 	PathService::Get(base::DIR_EXE, &log_filename);
 	PathService::Get(base::FILE_EXE, &log_exename);
 	base::FilePath base_name = log_exename.BaseName().RemoveExtension();
+#if defined(OS_WIN)
 	std::string filename = base::StringPrintf("%s%s.log", base::UTF16ToASCII(base_name.value()).c_str(), time_buf);
+#elif defined(OS_POSIX)
+
+	std::string filename = base::StringPrintf("%s%s.log", base::SysWideToNativeMB(base::SysUTF8ToWide(base_name.value())).c_str(), time_buf);
+#endif
 	log_filename = log_filename.AppendASCII("log");
 
 	if (!base::DirectoryExists(log_filename)) {

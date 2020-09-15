@@ -9,15 +9,15 @@
 int main(int argc, char** argv)
 {
 	// string convert
-	base::string16 str16 = L"This is a test string. 这是中文测试";
-	std::cout << "Output string utf16: " << str16.c_str() << std::endl;
+	base::string16 str16(base::UTF8ToUTF16("This is a test string. 杩欐槸涓枃娴嬭瘯"));
+	std::cout << "Output string utf16: " << base::UTF16ToUTF8(str16).c_str() << std::endl;
 
-	std::string str_utf8 = base::WideToUTF8(str16);
+	std::string str_utf8 = base::WideToUTF8(base::UTF16ToWide(str16));
 	std::cout << "Output string utf8: " << str_utf8.c_str() << std::endl;
 
-	base::string16 str_utf16 = base::UTF8ToWide(str_utf8);
+	base::string16 str_utf16 = base::UTF8ToUTF16(str_utf8);
 
-	std::cout << "Output string utf16: " << str_utf16.c_str() << std::endl;
+	std::cout << "Output string utf16: " << base::UTF16ToUTF8(str_utf16).c_str() << std::endl;
 
 	std::wstring wstr = base::UTF16ToWide(str_utf16);
 
@@ -37,9 +37,7 @@ int main(int argc, char** argv)
 
 
 	// string util
-
 	std::string as = base::ToLowerASCII("AbcDefg");
-	base::string16 ws = base::ToLowerASCII(L"AbcDefg");
 
 	int cmp = base::CompareCaseInsensitiveASCII("abc", "Abc");
 
@@ -51,8 +49,8 @@ int main(int argc, char** argv)
 	base::TrimString(url, kURLPathSeparator, &path);
 
 
-	bool blfind = base::StartsWith(L"C:\\Windows\\AppCompat\\Programs", L"C:\\Windows\\AppCompat", base::CompareCase::SENSITIVE);
-	bool brfind = base::EndsWith(L"C:\\Windows\\AppCompat\\Programs", L"\\AppCompat\\ProgramS", base::CompareCase::INSENSITIVE_ASCII);
+	bool blfind = base::StartsWith("C:\\Windows\\AppCompat\\Programs", "C:\\Windows\\AppCompat", base::CompareCase::SENSITIVE);
+	bool brfind = base::EndsWith("C:\\Windows\\AppCompat\\Programs", "\\AppCompat\\ProgramS", base::CompareCase::INSENSITIVE_ASCII);
 
 	return 0;
 }
