@@ -324,6 +324,9 @@ endif()
 
 if (APPLE)
     LIST(APPEND SOURCES
+		-base/native_library_posix.cc
+		base/native_library_mac.mm
+		base/native_library_ios.mm
 		base/time/time_mac.cc
 		base/threading/platform_thread_mac.mm
 		base/mac/mach_logging.cc
