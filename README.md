@@ -10,10 +10,8 @@ c++ basic library from Google chromium 49.0.2623.112
 2. Run build\vs2013_build_x86.cmd or vs2015_build_x86.cmd to compile
 
 
-### Linux
+### Linux, FreeBSD, macOS
 cd build
-chmod a+x linux_build.sh
-./linux_build.sh
+chmod a+x build.sh
+./build.sh
 
-### macOS
-to do
