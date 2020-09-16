@@ -11,7 +11,7 @@ c++ basic library from Google chromium 49.0.2623.112
 
 
 ### Linux, FreeBSD, macOS
-cd build
-chmod a+x build.sh
-./build.sh
+1. cd build
+2. chmod a+x build.sh
+3. ./build.sh
 
