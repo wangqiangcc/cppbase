@@ -9,6 +9,15 @@ message("Current build type is : ${CMAKE_BUILD_TYPE}")
 message("path is  : ${PROJECT_SOURCE_DIR}")
 message("sysmtem name is  : ${CMAKE_SYSTEM_NAME}")
 
+
+# where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
+set(CMAKE_MODULE_PATH
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules
+)
+
+# add definitions
+include(DefinePlatformDefaults)
+
 if (UNIX)
 
 add_definitions(-D__STDC_FORMAT_MACROS)
@@ -264,7 +273,7 @@ if (WIN32)
     )
 endif()
 
-if (UNIX)
+if (LINUX OR BSD)
 	LIST(APPEND SOURCES
 		base/native_library_posix.cc
 		base/guid_posix.cc
@@ -306,7 +315,7 @@ if (UNIX)
     )
 endif()
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+if(LINUX)
     LIST(APPEND SOURCES
 		base/sys_info_linux.cc
 		base/debug/proc_maps_linux.cc
@@ -324,7 +333,6 @@ endif()
 
 if (APPLE)
     LIST(APPEND SOURCES
-		# -base/native_library_posix.cc
 		base/native_library_mac.mm
 		base/native_library_ios.mm
 		base/time/time_mac.cc
