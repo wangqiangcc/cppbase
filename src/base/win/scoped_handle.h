@@ -75,7 +75,7 @@ class GenericScopedHandle {
       if (Traits::IsHandleValid(handle)) {
         handle_ = handle;
         Verifier::StartTracking(handle, this, BASE_WIN_GET_CALLER,
-                                tracked_objects::GetProgramCounter());
+                                base::GetProgramCounter());
       }
       ::SetLastError(last_error);
     }
@@ -91,7 +91,7 @@ class GenericScopedHandle {
     handle_ = Traits::NullHandle();
     if (Traits::IsHandleValid(temp)) {
       Verifier::StopTracking(temp, this, BASE_WIN_GET_CALLER,
-                             tracked_objects::GetProgramCounter());
+                             base::GetProgramCounter());
     }
     return temp;
   }
@@ -100,7 +100,7 @@ class GenericScopedHandle {
   void Close() {
     if (Traits::IsHandleValid(handle_)) {
       Verifier::StopTracking(handle_, this, BASE_WIN_GET_CALLER,
-                             tracked_objects::GetProgramCounter());
+                             base::GetProgramCounter());
 
       Traits::CloseHandle(handle_);
       handle_ = Traits::NullHandle();

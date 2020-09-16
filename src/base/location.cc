@@ -12,7 +12,7 @@
 #include "base/strings/string_number_conversions.h"
 #include "base/strings/stringprintf.h"
 
-namespace tracked_objects {
+namespace base {
 
 Location::Location(const char* function_name,
                    const char* file_name,
@@ -80,7 +80,7 @@ LocationSnapshot::LocationSnapshot() : line_number(-1) {
 }
 
 LocationSnapshot::LocationSnapshot(
-    const tracked_objects::Location& location)
+    const Location& location)
     : file_name(location.file_name()),
       function_name(location.function_name()),
       line_number(location.line_number()) {
@@ -103,4 +103,4 @@ BASE_EXPORT const void* GetProgramCounter() {
 #endif
 }
 
-}  // namespace tracked_objects
+}  // namespace base

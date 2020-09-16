@@ -29,12 +29,12 @@ class PostTaskAndReplyImpl {
 
   // Implementation for TaskRunner::PostTaskAndReply and
   // WorkerPool::PostTaskAndReply.
-  bool PostTaskAndReply(const tracked_objects::Location& from_here,
+  bool PostTaskAndReply(const Location& from_here,
                         const Closure& task,
                         const Closure& reply);
 
  private:
-  virtual bool PostTask(const tracked_objects::Location& from_here,
+  virtual bool PostTask(const Location& from_here,
                         const Closure& task) = 0;
 };
 

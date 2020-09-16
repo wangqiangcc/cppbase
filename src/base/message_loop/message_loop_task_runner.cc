@@ -23,7 +23,7 @@ void MessageLoopTaskRunner::BindToCurrentThread() {
 }
 
 bool MessageLoopTaskRunner::PostDelayedTask(
-    const tracked_objects::Location& from_here,
+    const Location& from_here,
     const base::Closure& task,
     base::TimeDelta delay) {
   DCHECK(!task.is_null()) << from_here.ToString();
@@ -31,7 +31,7 @@ bool MessageLoopTaskRunner::PostDelayedTask(
 }
 
 bool MessageLoopTaskRunner::PostNonNestableDelayedTask(
-    const tracked_objects::Location& from_here,
+    const Location& from_here,
     const base::Closure& task,
     base::TimeDelta delay) {
   DCHECK(!task.is_null()) << from_here.ToString();

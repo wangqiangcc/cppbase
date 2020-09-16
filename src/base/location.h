@@ -13,7 +13,7 @@
 #include "base/base_export.h"
 #include "base/containers/hash_tables.h"
 
-namespace tracked_objects {
+namespace base {
 
 // Location provides basic info where of an object was constructed, or was
 // significantly brought to life.
@@ -86,7 +86,7 @@ class BASE_EXPORT Location {
 struct BASE_EXPORT LocationSnapshot {
   // The default constructor is exposed to support the IPC serialization macros.
   LocationSnapshot();
-  explicit LocationSnapshot(const tracked_objects::Location& location);
+  explicit LocationSnapshot(const Location& location);
   ~LocationSnapshot();
 
   std::string file_name;
@@ -100,11 +100,11 @@ BASE_EXPORT const void* GetProgramCounter();
 #define FROM_HERE FROM_HERE_WITH_EXPLICIT_FUNCTION(__FUNCTION__)
 
 #define FROM_HERE_WITH_EXPLICIT_FUNCTION(function_name)                        \
-    ::tracked_objects::Location(function_name,                                 \
+    base::Location(function_name,                                 \
                                 __FILE__,                                      \
                                 __LINE__,                                      \
-                                ::tracked_objects::GetProgramCounter())
+                                base::GetProgramCounter())
 
-}  // namespace tracked_objects
+}  // namespace base
 
 #endif  // BASE_LOCATION_H_

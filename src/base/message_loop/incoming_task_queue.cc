@@ -49,7 +49,7 @@ IncomingTaskQueue::IncomingTaskQueue(MessageLoop* message_loop)
 }
 
 bool IncomingTaskQueue::AddToIncomingQueue(
-    const tracked_objects::Location& from_here,
+    const Location& from_here,
     const Closure& task,
     TimeDelta delay,
     bool nestable) {

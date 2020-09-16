@@ -12,11 +12,10 @@
 // SequencedTaskRunner use these helpers (instead of MessageLoop).
 // Then we can just move these to sequenced_task_runner.h.
 
-namespace tracked_objects {
-class Location;
-}
 
 namespace base {
+
+class Location;
 
 namespace subtle {
 template <class T, class R> class DeleteHelperInternal;
@@ -80,7 +79,7 @@ class DeleteHelperInternal {
   template <class SequencedTaskRunnerType>
   static ReturnType DeleteViaSequencedTaskRunner(
       SequencedTaskRunnerType* sequenced_task_runner,
-      const tracked_objects::Location& from_here,
+      const Location& from_here,
       const T* object) {
     return sequenced_task_runner->DeleteSoonInternal(
         from_here, &DeleteHelper<T>::DoDelete, object);
@@ -96,7 +95,7 @@ class ReleaseHelperInternal {
   template <class SequencedTaskRunnerType>
   static ReturnType ReleaseViaSequencedTaskRunner(
       SequencedTaskRunnerType* sequenced_task_runner,
-      const tracked_objects::Location& from_here,
+      const Location& from_here,
       const T* object) {
     return sequenced_task_runner->ReleaseSoonInternal(
         from_here, &ReleaseHelper<T>::DoRelease, object);

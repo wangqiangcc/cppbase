@@ -9,7 +9,7 @@
 
 namespace base {
 
-PendingTask::PendingTask(const tracked_objects::Location& posted_from,
+PendingTask::PendingTask(const Location& posted_from,
                          const base::Closure& task)
     : delayed_run_time(TimeTicks()),
 	  time_posted(TimeTicks()),
@@ -20,7 +20,7 @@ PendingTask::PendingTask(const tracked_objects::Location& posted_from,
       is_high_res(false) {
 }
 
-PendingTask::PendingTask(const tracked_objects::Location& posted_from,
+PendingTask::PendingTask(const Location& posted_from,
                          const base::Closure& task,
                          TimeTicks delayed_run_time,
                          bool nestable)

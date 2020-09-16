@@ -6,18 +6,15 @@
 #define BASE_TASK_RUNNER_H_
 
 #include <stddef.h>
-
 #include "base/base_export.h"
 #include "base/callback_forward.h"
 #include "base/memory/ref_counted.h"
 #include "base/time/time.h"
 
-namespace tracked_objects {
-class Location;
-} // namespace tracked_objects
 
 namespace base {
 
+class Location;
 struct TaskRunnerTraits;
 
 // A TaskRunner is an object that runs posted tasks (in the form of
@@ -64,7 +61,7 @@ class BASE_EXPORT TaskRunner
   // will not be run.
   //
   // Equivalent to PostDelayedTask(from_here, task, 0).
-  bool PostTask(const tracked_objects::Location& from_here,
+  bool PostTask(const Location& from_here,
                 const Closure& task);
 
   // Like PostTask, but tries to run the posted task only after
@@ -72,7 +69,7 @@ class BASE_EXPORT TaskRunner
   //
   // It is valid for an implementation to ignore |delay_ms|; that is,
   // to have PostDelayedTask behave the same as PostTask.
-  virtual bool PostDelayedTask(const tracked_objects::Location& from_here,
+  virtual bool PostDelayedTask(const Location& from_here,
                                const Closure& task,
                                base::TimeDelta delay) = 0;
 
@@ -125,7 +122,7 @@ class BASE_EXPORT TaskRunner
   //   * The DataLoader object can be deleted while |task| is still running,
   //     and the reply will cancel itself safely because it is bound to a
   //     WeakPtr<>.
-  bool PostTaskAndReply(const tracked_objects::Location& from_here,
+  bool PostTaskAndReply(const Location& from_here,
                         const Closure& task,
                         const Closure& reply);
 

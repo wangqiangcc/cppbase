@@ -108,11 +108,11 @@ class BASE_EXPORT SequencedTaskRunner : public TaskRunner {
   // TODO(akalin): Get rid of the boolean return value for the methods
   // below.
 
-  bool PostNonNestableTask(const tracked_objects::Location& from_here,
+  bool PostNonNestableTask(const Location& from_here,
                            const Closure& task);
 
   virtual bool PostNonNestableDelayedTask(
-      const tracked_objects::Location& from_here,
+      const Location& from_here,
       const Closure& task,
       base::TimeDelta delay) = 0;
 
@@ -120,7 +120,7 @@ class BASE_EXPORT SequencedTaskRunner : public TaskRunner {
   // true if the object may be deleted at some point in the future,
   // and false if the object definitely will not be deleted.
   template <class T>
-  bool DeleteSoon(const tracked_objects::Location& from_here,
+  bool DeleteSoon(const Location& from_here,
                   const T* object) {
     return
         subtle::DeleteHelperInternal<T, bool>::DeleteViaSequencedTaskRunner(
@@ -131,7 +131,7 @@ class BASE_EXPORT SequencedTaskRunner : public TaskRunner {
   // true if the object may be released at some point in the future,
   // and false if the object definitely will not be released.
   template <class T>
-  bool ReleaseSoon(const tracked_objects::Location& from_here,
+  bool ReleaseSoon(const Location& from_here,
                    T* object) {
     return
         subtle::ReleaseHelperInternal<T, bool>::ReleaseViaSequencedTaskRunner(
@@ -145,11 +145,11 @@ class BASE_EXPORT SequencedTaskRunner : public TaskRunner {
   template <class T, class R> friend class subtle::DeleteHelperInternal;
   template <class T, class R> friend class subtle::ReleaseHelperInternal;
 
-  bool DeleteSoonInternal(const tracked_objects::Location& from_here,
+  bool DeleteSoonInternal(const Location& from_here,
                           void(*deleter)(const void*),
                           const void* object);
 
-  bool ReleaseSoonInternal(const tracked_objects::Location& from_here,
+  bool ReleaseSoonInternal(const Location& from_here,
                            void(*releaser)(const void*),
                            const void* object);
 };

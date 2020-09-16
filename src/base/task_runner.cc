@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include "base/task_runner.h"
-
+#include "base/location.h"
 #include "base/compiler_specific.h"
 #include "base/logging.h"
 #include "base/threading/post_task_and_reply_impl.h"
@@ -20,7 +20,7 @@ class PostTaskAndReplyTaskRunner : public internal::PostTaskAndReplyImpl {
   explicit PostTaskAndReplyTaskRunner(TaskRunner* destination);
 
  private:
-  bool PostTask(const tracked_objects::Location& from_here,
+  bool PostTask(const Location& from_here,
                 const Closure& task) override;
 
   // Non-owning.
@@ -33,20 +33,20 @@ PostTaskAndReplyTaskRunner::PostTaskAndReplyTaskRunner(
 }
 
 bool PostTaskAndReplyTaskRunner::PostTask(
-    const tracked_objects::Location& from_here,
+    const Location& from_here,
     const Closure& task) {
   return destination_->PostTask(from_here, task);
 }
 
 }  // namespace
 
-bool TaskRunner::PostTask(const tracked_objects::Location& from_here,
+bool TaskRunner::PostTask(const Location& from_here,
                           const Closure& task) {
   return PostDelayedTask(from_here, task, base::TimeDelta());
 }
 
 bool TaskRunner::PostTaskAndReply(
-    const tracked_objects::Location& from_here,
+    const Location& from_here,
     const Closure& task,
     const Closure& reply) {
   return PostTaskAndReplyTaskRunner(this).PostTaskAndReply(

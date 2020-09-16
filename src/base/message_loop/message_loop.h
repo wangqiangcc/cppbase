@@ -177,17 +177,17 @@ class BASE_EXPORT MessageLoop : public MessagePump::Delegate {
   //
   // NOTE: These methods may be called on any thread.  The Task will be invoked
   // on the thread that executes MessageLoop::Run().
-  void PostTask(const tracked_objects::Location& from_here,
+  void PostTask(const Location& from_here,
                 const Closure& task);
 
-  void PostDelayedTask(const tracked_objects::Location& from_here,
+  void PostDelayedTask(const Location& from_here,
                        const Closure& task,
                        TimeDelta delay);
 
-  void PostNonNestableTask(const tracked_objects::Location& from_here,
+  void PostNonNestableTask(const Location& from_here,
                            const Closure& task);
 
-  void PostNonNestableDelayedTask(const tracked_objects::Location& from_here,
+  void PostNonNestableDelayedTask(const Location& from_here,
                                   const Closure& task,
                                   TimeDelta delay);
 
@@ -199,7 +199,7 @@ class BASE_EXPORT MessageLoop : public MessagePump::Delegate {
   // NOTE: This method may be called on any thread.  The object will be deleted
   // on the thread that executes MessageLoop::Run().
   template <class T>
-  void DeleteSoon(const tracked_objects::Location& from_here, const T* object) {
+  void DeleteSoon(const Location& from_here, const T* object) {
     base::subtle::DeleteHelperInternal<T, void>::DeleteViaSequencedTaskRunner(
         this, from_here, object);
   }
@@ -227,7 +227,7 @@ class BASE_EXPORT MessageLoop : public MessagePump::Delegate {
   // ReleaseSoon(FROM_HERE, ), then T MUST inherit from
   // RefCountedThreadSafe<T>!
   template <class T>
-  void ReleaseSoon(const tracked_objects::Location& from_here,
+  void ReleaseSoon(const Location& from_here,
                    const T* object) {
     base::subtle::ReleaseHelperInternal<T, void>::ReleaseViaSequencedTaskRunner(
         this, from_here, object);
@@ -527,10 +527,10 @@ class BASE_EXPORT MessageLoop : public MessagePump::Delegate {
   template <class T, class R> friend class base::subtle::DeleteHelperInternal;
   template <class T, class R> friend class base::subtle::ReleaseHelperInternal;
 
-  void DeleteSoonInternal(const tracked_objects::Location& from_here,
+  void DeleteSoonInternal(const Location& from_here,
                           void(*deleter)(const void*),
                           const void* object);
-  void ReleaseSoonInternal(const tracked_objects::Location& from_here,
+  void ReleaseSoonInternal(const Location& from_here,
                            void(*releaser)(const void*),
                            const void* object);
 

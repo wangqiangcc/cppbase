@@ -17,9 +17,9 @@ namespace base {
 // Contains data about a pending task. Stored in TaskQueue and DelayedTaskQueue
 // for use by classes that queue and execute tasks.
 struct BASE_EXPORT PendingTask {
-  PendingTask(const tracked_objects::Location& posted_from,
+  PendingTask(const Location& posted_from,
               const Closure& task);
-  PendingTask(const tracked_objects::Location& posted_from,
+  PendingTask(const Location& posted_from,
               const Closure& task,
               TimeTicks delayed_run_time,
               bool nestable);
@@ -32,7 +32,7 @@ struct BASE_EXPORT PendingTask {
   Closure task;
 
   // The site this PendingTask was posted from.
-  tracked_objects::Location posted_from;
+  Location posted_from;
 
   // Secondary sort key for run time.
   int sequence_num;

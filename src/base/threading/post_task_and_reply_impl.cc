@@ -24,7 +24,7 @@ namespace {
 // invoking the Closure destructor on the wrong thread.
 class PostTaskAndReplyRelay {
  public:
-  PostTaskAndReplyRelay(const tracked_objects::Location& from_here,
+  PostTaskAndReplyRelay(const Location& from_here,
                         const Closure& task,
                         const Closure& reply)
       : from_here_(from_here),
@@ -61,7 +61,7 @@ class PostTaskAndReplyRelay {
     delete this;
   }
 
-  tracked_objects::Location from_here_;
+  Location from_here_;
   scoped_refptr<SingleThreadTaskRunner> origin_task_runner_;
   Closure reply_;
   Closure task_;
@@ -72,7 +72,7 @@ class PostTaskAndReplyRelay {
 namespace internal {
 
 bool PostTaskAndReplyImpl::PostTaskAndReply(
-    const tracked_objects::Location& from_here,
+    const Location& from_here,
     const Closure& task,
     const Closure& reply) {
   // TODO(tzik): Use DCHECK here once the crash is gone. http://crbug.com/541319
