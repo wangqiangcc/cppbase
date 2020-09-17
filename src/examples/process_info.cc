@@ -7,6 +7,7 @@
 
 int main(int argc, char** argv) {
   
+#if defined(OS_WIN) || defined(OS_LINUX)
 	int process_id = 0;
 	if (argc >= 2) {
 		process_id = std::stoi(std::string(argv[1]));
@@ -44,5 +45,6 @@ int main(int argc, char** argv) {
 
 	}
 
+#endif
   return 0;
 }
