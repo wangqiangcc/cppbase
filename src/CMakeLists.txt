@@ -127,7 +127,7 @@ base/scoped_native_library.cc
 base/sha1_portable.cc
 base/sha256.cc
 base/supports_user_data.cc
-base/sys_info.cc
+base/system/sys_info.cc
 base/task_runner.cc
 base/thread_task_runner_handle.cc
 base/sequenced_task_runner.cc
@@ -218,14 +218,14 @@ if (WIN32)
 		base/base_paths_win.cc        
 		base/files/file_util_win.cc
 		base/file_version_info_win.cc
-		base/sys_info_win.cc
+		base/system/sys_info_win.cc
 		base/guid_win.cc
 		base/logging_win.cc
 		base/native_library_win.cc
 		base/platform_file_win.cc
 		base/rand_util_win.cc
 		base/sync_socket_win.cc
-		base/sys_info_win.cc
+		base/system/sys_info_win.cc
 		base/debug/debugger_win.cc
 		base/debug/stack_trace_win.cc
 		base/files/file_win.cc
@@ -281,7 +281,7 @@ if (LINUX OR BSD)
 		base/platform_file_posix.cc
 		base/rand_util_posix.cc
 		base/sync_socket_posix.cc
-		base/sys_info_posix.cc
+		base/system/sys_info_posix.cc
 		base/debug/debugger_posix.cc
 		base/debug/stack_trace_posix.cc
 		base/files/file_enumerator_posix.cc
@@ -317,7 +317,7 @@ endif()
 
 if(LINUX)
     LIST(APPEND SOURCES
-		base/sys_info_linux.cc
+		base/system/sys_info_linux.cc
 		base/debug/proc_maps_linux.cc
 		base/posix/unix_domain_socket_linux.cc
 		base/process/internal_linux.cc
@@ -338,6 +338,19 @@ if (APPLE)
 		base/time/time_mac.cc
 		base/threading/platform_thread_mac.mm
 		base/mac/mach_logging.cc
+		base/system/sys_info_mac.mm
+    )
+endif()
+
+if (FREEBSD)
+    LIST(APPEND SOURCES
+		base/system/sys_info_freebsd.cc
+    )
+endif()
+
+if (OPENBSD)
+    LIST(APPEND SOURCES
+		base/system/sys_info_openbsd.cc
     )
 endif()
 
@@ -407,7 +420,7 @@ if (WIN32)
 		base/supports_user_data.h
 		base/sync_socket.h
 		base/sys_byteorder.h
-		base/sys_info.h
+		base/system/sys_info.h
 		base/template_util.h
 		base/tuple.h
 		base/values.h
