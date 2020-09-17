@@ -179,7 +179,7 @@ scoped_ptr<MessagePump> MessageLoop::CreateMessagePumpForType(Type type) {
 // TODO(rvargas): Get rid of the OS guards.
 #if defined(USE_GLIB) && !defined(OS_NACL)
   typedef MessagePumpGlib MessagePumpForUI;
-#elif defined(OS_LINUX) && !defined(OS_NACL)
+#elif (defined(OS_LINUX) | defined(OS_BSD)) && !defined(OS_NACL)
   typedef MessagePumpLibevent MessagePumpForUI;
 #endif
 
