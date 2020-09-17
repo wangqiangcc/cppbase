@@ -300,7 +300,11 @@ bool Process::Terminate(int exit_code, bool wait) const {
   DCHECK(IsValid());
   CHECK_GT(process_, 0);
 
+#if defined(OS_LINUX)
   bool result = kill(process_, SIGTERM) == 0;
+#elif defined(OS_BSD) || defined(OS_MACOSX)
+  bool result = kill(process_, TERM) == 0;
+#enif
   if (result && wait) {
     int tries = 60;
 
@@ -339,7 +343,11 @@ bool Process::Terminate(int exit_code, bool wait) const {
     // If we're waiting and the child hasn't died by now, force it
     // with a SIGKILL.
     if (!exited)
-      result = kill(process_, SIGKILL) == 0;
+#if defined(OS_LINUX)
+		result = kill(process_, SIGKILL) == 0;
+#elif defined(OS_BSD) || defined(OS_MACOSX)
+		result = kill(process_, KILL) == 0;
+	#enif
   }
 
   if (!result)
