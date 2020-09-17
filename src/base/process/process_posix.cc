@@ -304,7 +304,7 @@ bool Process::Terminate(int exit_code, bool wait) const {
   bool result = kill(process_, SIGTERM) == 0;
 #elif defined(OS_BSD) || defined(OS_MACOSX)
   bool result = kill(process_, TERM) == 0;
-#enif
+#endif
   if (result && wait) {
     int tries = 60;
 
@@ -347,7 +347,7 @@ bool Process::Terminate(int exit_code, bool wait) const {
 		result = kill(process_, SIGKILL) == 0;
 #elif defined(OS_BSD) || defined(OS_MACOSX)
 		result = kill(process_, KILL) == 0;
-	#enif
+#endif
   }
 
   if (!result)
