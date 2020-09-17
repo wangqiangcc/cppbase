@@ -6,7 +6,7 @@
 
 #include "base/environment.h"
 #include "base/files/file_util.h"
-#include "base/sys_info.h"
+#include "base/system/sys_info.h"
 #include "base/threading/platform_thread.h"
 #include "base/time/time.h"
 #include "build/build_config.h"

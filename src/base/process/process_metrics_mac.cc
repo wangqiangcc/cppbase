@@ -15,7 +15,7 @@
 #include "base/logging.h"
 #include "base/mac/mach_logging.h"
 #include "base/mac/scoped_mach_port.h"
-#include "base/sys_info.h"
+#include "base/system/sys_info.h"
 
 #if !defined(TASK_POWER_INFO)
 // Doesn't exist in the 10.6 or 10.7 SDKs.

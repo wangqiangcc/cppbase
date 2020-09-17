@@ -5,7 +5,7 @@
 #include "base/android/sys_utils.h"
 
 #include "base/android/build_info.h"
-#include "base/sys_info.h"
+#include "base/system/sys_info.h"
 #include "jni/SysUtils_jni.h"
 
 namespace base {

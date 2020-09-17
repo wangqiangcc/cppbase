@@ -13,7 +13,7 @@
 #include "base/process/kill.h"
 #include "base/rand_util.h"
 #include "base/strings/string_number_conversions.h"
-#include "base/sys_info.h"
+#include "base/system/sys_info.h"
 #include "base/test/multiprocess_test.h"
 #include "base/threading/platform_thread.h"
 #include "base/time/time.h"
