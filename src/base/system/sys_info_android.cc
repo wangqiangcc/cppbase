@@ -15,7 +15,7 @@
 #include "base/strings/string_number_conversions.h"
 #include "base/strings/string_piece.h"
 #include "base/strings/stringprintf.h"
-#include "base/sys_info_internal.h"
+#include "base/system/sys_info_internal.h"
 
 #if (__ANDROID_API__ >= 21 /* 5.0 - Lollipop */)
 

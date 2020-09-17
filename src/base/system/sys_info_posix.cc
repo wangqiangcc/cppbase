@@ -17,7 +17,7 @@
 #include "base/lazy_instance.h"
 #include "base/logging.h"
 #include "base/strings/utf_string_conversions.h"
-#include "base/sys_info_internal.h"
+#include "base/system/sys_info_internal.h"
 #include "base/threading/thread_restrictions.h"
 #include "build/build_config.h"
 
