@@ -588,9 +588,11 @@ link_directories(${PROJECT_BINARY_DIR}/bin)
 
 if (WIN32)
         target_link_libraries(base Netapi32 PowrProf Setupapi Version Dbghelp Ws2_32 Shlwapi)
-else (WIN32)
+elseif (LINUX)
         target_link_libraries(base dl pthread)
-endif(WIN32)
+elseif (BSD)
+        target_link_libraries(base dl pthread execinfo)
+endif()
 
 if (MSVC)
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
