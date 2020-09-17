@@ -345,6 +345,7 @@ endif()
 if (FREEBSD)
     LIST(APPEND SOURCES
 		base/system/sys_info_freebsd.cc
+		base/threading/platform_thread_freebsd.cc
     )
 endif()
 
