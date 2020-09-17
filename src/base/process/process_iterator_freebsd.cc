@@ -21,7 +21,7 @@ ProcessIterator::ProcessIterator(const ProcessFilter* filter)
     : index_of_kinfo_proc_(),
       filter_(filter) {
 
-  int mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_UID, getuid() };
+  int mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_UID, static_cast<int>(getuid()) };
 
   bool done = false;
   int try_num = 1;
