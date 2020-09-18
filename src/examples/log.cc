@@ -18,38 +18,41 @@ void InitLogging() {
 	char time_buf[BUFFER_SIZE] = { 0 };
 #if defined(OS_WIN)
 	localtime_s(&local_time, &current_time);
-	//asctime_s(time_buf, arraysize(time_buf), &local_time);
-	strftime(time_buf, arraysize(time_buf), "%Y%m%d%H%M%S", &local_time);
+	strftime(time_buf, arraysize(time_buf), "%Y%m%d", &local_time);
 #elif defined(OS_POSIX)
 	localtime_r(&current_time, &local_time);
-	//asctime_r(&local_time, time_buf);
-	strftime(time_buf, arraysize(time_buf), "%Y%m%d%H%M%S", &local_time);
+	strftime(time_buf, arraysize(time_buf), "%Y%m%d", &local_time);
 #endif
 
-	base::FilePath log_filename;
+	base::FilePath log_path;
+	base::FilePath log_filedir;
 	base::FilePath log_exename;
-	PathService::Get(base::DIR_EXE, &log_filename);
 	PathService::Get(base::FILE_EXE, &log_exename);
 	base::FilePath base_name = log_exename.BaseName().RemoveExtension();
 #if defined(OS_WIN)
+	PathService::Get(base::DIR_EXE, &log_filedir);
+	log_filedir = log_filedir.AppendASCII("log");
 	std::string filename = base::StringPrintf("%s%s.log", base::UTF16ToASCII(base_name.value()).c_str(), time_buf);
 #elif defined(OS_POSIX)
-
-	std::string filename = base::StringPrintf("%s%s.log", base::SysWideToNativeMB(base::SysUTF8ToWide(base_name.value())).c_str(), time_buf);
+	log_filedir = base::FilePath::FromUTF8Unsafe(base::StringPrintf("/var/log/%s", base_name.value().c_str()));
+	std::string filename = base::StringPrintf("%s%s.log", base_name.value().c_str(), time_buf);
 #endif
-	log_filename = log_filename.AppendASCII("log");
 
-	if (!base::DirectoryExists(log_filename)) {
-		base::CreateDirectoryAndGetError(log_filename, NULL);
+	if (!base::DirectoryExists(log_filedir)) {
+		base::CreateDirectoryAndGetError(log_filedir, NULL);
 	}
 
-	log_filename = log_filename.AppendASCII(filename.c_str());
+	log_path = log_filedir.AppendASCII(filename.c_str());
 	logging::LoggingSettings settings;
 	settings.logging_dest = logging::LOG_TO_ALL;
-	settings.log_file = log_filename.value().c_str();
+	settings.log_file = log_path.value().c_str();
 	settings.delete_old = logging::APPEND_TO_OLD_LOG_FILE;
 	logging::InitLogging(settings);
-	logging::SetLogItems(true, true, true, true);
+	//Log saving options: process ID, thread ID, timestamp, tick count
+	logging::SetLogItems(true,    // enable_process_id
+						 true,    // enable_thread_id
+						 true,    // enable_timestamp
+						 false);  // enable_tickcount
 }
 
 int main(int argc, char** argv) {
@@ -61,10 +64,22 @@ int main(int argc, char** argv) {
 	InitLogging();
 
 	//INFO, WARNING, ERROR
+	LOG(INFO) << "Info message";
+	LOG(WARNING) << "Warning message";
+	LOG(ERROR) << "Error message";
 
-	LOG(INFO) << "info text \n\r";
-	LOG(WARNING) << "warning text \n\r";
-	LOG(ERROR) << "error text \n\r";
+	LOG(INFO) << "ÖÐ¹ú£¬ÄãºÃ£¡";
+
+	//DLOG is similar to LOG, the difference is that DLOG only takes effect in DEBUG mode
+	DLOG(INFO) << "debug mode message";
+
+	//Use the LOG_IF macro to output log only when the expression condition is true
+	int a = 1;
+	LOG_IF(INFO, a < 3) << "if a < 3";
+
+	// PLOG macro also appends the last error information of the system.
+	// GetLastError() on windows, errno on POSIX
+	PLOG(ERROR) << "Open file failed, LastError";
 
 	return 0;
 }

@@ -295,13 +295,6 @@ const LogSeverity LOG_0 = LOG_ERROR;
 #define LOG_IS_ON(severity) \
   (::logging::ShouldCreateLogMessage(::logging::LOG_##severity))
 
-// We can't do any caching tricks with VLOG_IS_ON() like the
-// google-glog version since it requires GCC extensions.  This means
-// that using the v-logging functions in conjunction with --vmodule
-// may be slow.
-#define VLOG_IS_ON(verboselevel) \
-  ((verboselevel) <= ::logging::GetVlogLevel(__FILE__))
-
 // Helper macro which avoids evaluating the arguments to a stream if
 // the condition doesn't hold. Condition is evaluated once and only once.
 #define LAZY_STREAM(stream, condition)                                  \
