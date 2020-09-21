@@ -508,8 +508,6 @@ DEFINE_CHECK_OP_IMPL(GT, > )
 #define DLOG_IF(severity, condition) LOG_IF(severity, condition)
 #define DLOG_ASSERT(condition) LOG_ASSERT(condition)
 #define DPLOG_IF(severity, condition) PLOG_IF(severity, condition)
-#define DVLOG_IF(verboselevel, condition) VLOG_IF(verboselevel, condition)
-#define DVPLOG_IF(verboselevel, condition) VPLOG_IF(verboselevel, condition)
 
 #else  // ENABLE_DLOG
 
@@ -522,8 +520,6 @@ DEFINE_CHECK_OP_IMPL(GT, > )
 #define DLOG_IF(severity, condition) EAT_STREAM_PARAMETERS
 #define DLOG_ASSERT(condition) EAT_STREAM_PARAMETERS
 #define DPLOG_IF(severity, condition) EAT_STREAM_PARAMETERS
-#define DVLOG_IF(verboselevel, condition) EAT_STREAM_PARAMETERS
-#define DVPLOG_IF(verboselevel, condition) EAT_STREAM_PARAMETERS
 
 #endif  // ENABLE_DLOG
 
