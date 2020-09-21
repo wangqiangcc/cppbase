@@ -69,7 +69,7 @@ void SetPriorityNormal(mach_port_t mach_thread_id) {
                         THREAD_STANDARD_POLICY_COUNT);
 
   if (result != KERN_SUCCESS)
-    MACH_DLOG(ERROR) << "thread_policy_set";
+    MACH_DLOG(ERROR, result) << "thread_policy_set";
 }
 
 // Enables time-contraint policy and priority suitable for low-latency,
@@ -91,7 +91,7 @@ void SetPriorityRealtimeAudio(mach_port_t mach_thread_id) {
                         reinterpret_cast<thread_policy_t>(&policy),
                         THREAD_EXTENDED_POLICY_COUNT);
   if (result != KERN_SUCCESS) {
-    MACH_DLOG(ERROR) << "thread_policy_set";
+    MACH_DLOG(ERROR, result) << "thread_policy_set";
     return;
   }
 
@@ -103,7 +103,7 @@ void SetPriorityRealtimeAudio(mach_port_t mach_thread_id) {
                              reinterpret_cast<thread_policy_t>(&precedence),
                              THREAD_PRECEDENCE_POLICY_COUNT);
   if (result != KERN_SUCCESS) {
-    MACH_DLOG(ERROR) << "thread_policy_set";
+    MACH_DLOG(ERROR, result) << "thread_policy_set";
     return;
   }
 
