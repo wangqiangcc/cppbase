@@ -44,7 +44,7 @@ void SystemMonitor::RemoveDevicesChangedObserver(DevicesChangedObserver* obs) {
 }
 
 void SystemMonitor::NotifyDevicesChanged(DeviceType device_type) {
-  DVLOG(1) << "DevicesChanged with device type " << device_type;
+  DLOG(ERROR) << "DevicesChanged with device type " << device_type;
   devices_changed_observer_list_->Notify(
       FROM_HERE, &DevicesChangedObserver::OnDevicesChanged, device_type);
 }

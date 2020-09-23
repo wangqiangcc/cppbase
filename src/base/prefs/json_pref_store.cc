@@ -59,7 +59,7 @@ PersistentPrefStore::PrefReadError HandleReadErrors(
     int error_code,
     const std::string& error_msg) {
   if (!value) {
-    DVLOG(1) << "Error while loading JSON file: " << error_msg
+    DLOG(ERROR) << "Error while loading JSON file: " << error_msg
              << ", file: " << path.value();
     switch (error_code) {
       case JSONFileValueDeserializer::JSON_ACCESS_DENIED:

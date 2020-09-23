@@ -237,7 +237,7 @@ void MemoryPressureMonitor::CheckMemoryPressure() {
 int MemoryPressureMonitor::GetUsedMemoryInPercent() {
   base::SystemMemoryInfoKB info;
   if (!base::GetSystemMemoryInfo(&info)) {
-    VLOG(1) << "Cannot determine the free memory of the system.";
+    LOG(ERROR) << "Cannot determine the free memory of the system.";
     return 0;
   }
   // TODO(skuhne): Instead of adding the kernel memory pressure calculation
