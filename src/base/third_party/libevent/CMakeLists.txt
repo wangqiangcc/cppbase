@@ -60,6 +60,10 @@ include_directories(
 	${PROJECT_SOURCE_DIR}/../../../
 )
 
+if (APPLE)
+set(CMAKE_MACOSX_RPATH 1)
+endif()
+
 if (UNIX)
 set(CMAKE_C_COMPILER "/usr/bin/clang")
 set(CMAKE_CXX_COMPILER "/usr/bin/clang++")

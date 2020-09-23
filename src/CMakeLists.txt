@@ -18,6 +18,13 @@ set(CMAKE_MODULE_PATH
 # add definitions
 include(DefinePlatformDefaults)
 
+if (APPLE)
+#include(FindAppKit)
+#include(FindCoreFoundation)
+#include(FindApplicationServices)
+include(Apple)
+endif()
+
 if (UNIX)
 
 add_definitions(-D__STDC_FORMAT_MACROS)
@@ -80,7 +87,9 @@ endif()
 string(REPLACE ";" " " CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
 if(APPLE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
+set(CMAKE_MACOSX_RPATH 1)
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif()
 
 # for base build
@@ -273,7 +282,7 @@ if (WIN32)
     )
 endif()
 
-if (LINUX OR BSD)
+if (LINUX OR BSD OR APPLE)
 	LIST(APPEND SOURCES
 		base/native_library_posix.cc
 		base/guid_posix.cc
@@ -333,13 +342,34 @@ endif()
 
 if (APPLE)
     LIST(APPEND SOURCES
+		base/base_paths_mac.mm
 		base/native_library_mac.mm
-		base/native_library_ios.mm
+		base/process/launch_mac.cc
 		base/time/time_mac.cc
+		base/message_loop/message_pump_mac.mm
+		base/strings/sys_string_conversions_mac.mm
 		base/threading/platform_thread_mac.mm
 		base/mac/mach_logging.cc
+		base/mac/foundation_util.mm
+		base/mac/bundle_locations.mm
+		base/mac/scoped_nsautorelease_pool.mm
+		base/mac/scoped_mach_port.cc
+		base/mac/call_with_eh_frame.cc
+		base/mac/call_with_eh_frame_asm.S
 		base/system/sys_info_mac.mm
+		base/files/file_util_mac.mm
+		base/process/process_handle_mac.cc
+		base/process/process_iterator_mac.cc
+		base/process/process_metrics_mac.cc
     )
+
+list(REMOVE_ITEM SOURCES
+		base/native_library_posix.cc
+		base/strings/sys_string_conversions_posix.cc
+		base/memory/shared_memory_posix.cc
+		base/threading/platform_thread_internal_posix.cc
+    )
+
 endif()
 
 if (FREEBSD)
@@ -590,6 +620,17 @@ if (WIN32)
         target_link_libraries(base Netapi32 PowrProf Setupapi Version Dbghelp Ws2_32 Shlwapi)
 elseif (LINUX)
         target_link_libraries(base dl pthread)
+elseif (APPLE)
+	target_link_libraries(base dl pthread
+				${LIBRARY_OUTPUT_PATH}/libevent.dylib
+				${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/AppKit.framework
+				${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/ApplicationServices.framework
+				${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/Carbon.framework
+				${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/CoreFoundation.framework
+				${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/Foundation.framework
+				${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/IOKit.framework
+				${CMAKE_OSX_SYSROOT}/System/Library/Frameworks/Security.framework
+				)
 elseif (BSD)
         target_link_libraries(base dl pthread execinfo)
 endif()
@@ -649,3 +690,4 @@ else (WIN32)
 target_link_libraries(string base event)
 endif(WIN32)
 ###############################################################
+
