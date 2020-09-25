@@ -173,8 +173,6 @@ base/process/kill.cc
 base/process/launch.cc
 base/process/process_iterator.cc
 base/process/process_metrics.cc
-base/profiler/alternate_timer.cc
-base/profiler/tracked_time.cc
 base/strings/latin1_string_conversions.cc
 base/strings/nullable_string16.cc
 base/strings/safe_sprintf.cc
@@ -525,8 +523,6 @@ if (WIN32)
 		base/process/process_info.h
 		base/process/process_iterator.h
 		base/process/process_metrics.h
-		base/profiler/alternate_timer.h
-		base/profiler/tracked_time.h
 		base/strings/latin1_string_conversions.h
 		base/strings/nullable_string16.h
 		base/strings/safe_sprintf.h
