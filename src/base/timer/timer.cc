@@ -67,7 +67,7 @@ Timer::Timer(bool retain_user_task, bool is_repeating)
       is_running_(false) {
 }
 
-Timer::Timer(const tracked_objects::Location& posted_from,
+Timer::Timer(const Location& posted_from,
              TimeDelta delay,
              const base::Closure& user_task,
              bool is_repeating)
@@ -99,7 +99,7 @@ void Timer::SetTaskRunner(scoped_refptr<SingleThreadTaskRunner> task_runner) {
   task_runner_.swap(task_runner);
 }
 
-void Timer::Start(const tracked_objects::Location& posted_from,
+void Timer::Start(const Location& posted_from,
                   TimeDelta delay,
                   const base::Closure& user_task) {
   SetTaskInfo(posted_from, delay, user_task);
@@ -139,7 +139,7 @@ void Timer::Reset() {
   PostNewScheduledTask(delay_);
 }
 
-void Timer::SetTaskInfo(const tracked_objects::Location& posted_from,
+void Timer::SetTaskInfo(const Location& posted_from,
                         TimeDelta delay,
                         const base::Closure& user_task) {
   posted_from_ = posted_from;

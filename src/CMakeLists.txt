@@ -207,6 +207,7 @@ base/time/default_tick_clock.cc
 base/time/tick_clock.cc
 base/time/time.cc
 base/timer/elapsed_timer.cc
+base/timer/timer.cc
 base/message_loop/message_loop.cc
 base/message_loop/message_pump.cc
 base/message_loop/message_pump_default.cc
