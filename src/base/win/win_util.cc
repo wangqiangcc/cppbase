@@ -24,7 +24,7 @@
 #include <signal.h>
 #include <stddef.h>
 #include <stdlib.h>
-#if _MSC_VER >= 1900
+#if _WIN32_WINNT >= 0x0A00 
 #include <uiviewsettingsinterop.h>
 #endif
 #if _WIN32_WINNT >= 0x0602 //Windows 8
