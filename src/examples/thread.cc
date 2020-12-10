@@ -93,7 +93,16 @@ void db_thread_func(const std::string& text) {
 
 int main(int argc, const char* const* argv) {
 	base::CommandLine::Init(argc, argv);
-	base::AtExitManager exit_manager;
+
+	{
+		std::string str = "test";
+		base::AtExitManager exit_manager;
+		base::AtExitManager::RegisterCallback([](void *args){
+			const char * str = reinterpret_cast<const char*>(args);
+			std::cout << "RegisterCallback str :" << str << std::endl;
+
+		}, (void *)str.c_str());
+	}
 
 	for (std::size_t i = 0; i < thread::ID_COUNT; i++) {
 		threads[i] = new base::Thread(thread_names[i]);
@@ -118,5 +127,4 @@ int main(int argc, const char* const* argv) {
 		}
 	}
 
-	system("pause");
 }
