@@ -40,10 +40,14 @@ int main(int argc, char** argv) {
 
 	// Get path
 	base::FilePath file_exe;
+	base::FilePath dir_exe;
 	base::FilePath file_module;
 	base::FilePath dir_temp;
 	PathService::Get(base::FILE_EXE, &file_exe);
 	std::cout << "FILE_EXE: " << file_exe.value() << std::endl;
+
+	PathService::Get(base::DIR_EXE, &dir_exe);
+	std::cout << "DIR_EXE: " << dir_exe.value() << std::endl;
 
 	PathService::Get(base::FILE_MODULE, &file_module);
 	std::cout << "FILE_MODULE: " << file_module.value() << std::endl;
